@@ -8,5 +8,4 @@
 
 ## Print do aplicativo
 
-<img src="https://raw.githubusercontent.com/nathanael540/imc-com-flutter-dio/main/print-1.png" width="400" align="left">
-<img src="https://raw.githubusercontent.com/nathanael540/imc-com-flutter-dio/main/print-2.png" width="400" align="right">
+<img src="https://raw.githubusercontent.com/nathanael540/imc-com-flutter-dio/main/print-1.png" width="400" align="left"><img src="https://raw.githubusercontent.com/nathanael540/imc-com-flutter-dio/main/print-2.png" width="400" align="right">
