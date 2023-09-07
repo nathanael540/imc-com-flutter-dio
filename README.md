@@ -1,16 +1,12 @@
-# imc_flutter
+# Calculadora de IMC com Flutter - DIO Santander Bootcamp 2023
 
-A new Flutter project.
+### Checklist do Desafio
+- Criar classe IMC (Peso / Altura)
+- Ler dados no app
+- Calcular IMC
+- Exibir em uma lista
 
-## Getting Started
+## Print do aplicativo
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://raw.githubusercontent.com/nathanael540/imc-com-flutter-dio/main/print-1.png" width="410" align="left">
+<img src="https://raw.githubusercontent.com/nathanael540/imc-com-flutter-dio/main/print-2.png" width="410" align="right">
