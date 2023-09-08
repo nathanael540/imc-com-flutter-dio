@@ -1,15 +1,19 @@
-import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class IMC {
   final double peso;
   final double altura;
+  final DateTime data;
 
   IMC({
     required this.peso,
     required this.altura,
+    required this.data,
   }) : assert(peso > 0 && altura > 0);
 
   String get imc => value.toStringAsFixed(2);
+
+  String get dataDeCadastro => DateFormat('dd/MM/yyyy').format(data);
 
   double get value {
     return peso / (altura * altura);
@@ -34,23 +38,4 @@ class IMC {
       return 'Obesidade Grau III (mórbida)';
     }
   }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'peso': peso,
-      'altura': altura,
-    };
-  }
-
-  factory IMC.fromMap(Map<String, dynamic> map) {
-    return IMC(
-      peso: map['peso'] as double,
-      altura: map['altura'] as double,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory IMC.fromJson(String source) =>
-      IMC.fromMap(json.decode(source) as Map<String, dynamic>);
 }

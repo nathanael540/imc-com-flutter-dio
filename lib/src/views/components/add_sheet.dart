@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:imc_flutter/src/classes/imc.dart';
+import 'package:imc_flutter/src/services/config_service.dart';
 import 'package:imc_flutter/src/services/imc_service.dart';
 
-class AddPage extends StatefulWidget {
-  const AddPage({super.key});
+class AddImcSheet extends StatefulWidget {
+  const AddImcSheet({super.key});
 
   @override
-  State<AddPage> createState() => _AddPageState();
+  State<AddImcSheet> createState() => _AddImcSheetState();
 }
 
-class _AddPageState extends State<AddPage> {
+class _AddImcSheetState extends State<AddImcSheet> {
   final _pesoController = TextEditingController();
-  final _alturaController = TextEditingController();
+
+  // Get da altura direto do Singleton
+  double get altura => ConfigService.instance.config!.altura;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _AddPageState extends State<AddPage> {
           padding: const EdgeInsets.all(20),
           children: [
             Text(
-              "Informe os dados abaixo para calcular o IMC:",
+              "Informe seu peso abaixo para salvar o IMC:",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
             ),
@@ -50,25 +52,18 @@ class _AddPageState extends State<AddPage> {
             ),
             const SizedBox(height: 10),
             TextField(
-              controller: _alturaController,
-              onChanged: (value) => setState(() {}),
-              maxLength: 3,
-              decoration: InputDecoration(
-                labelText: 'Altura (cm)',
-                border: const OutlineInputBorder(),
-                errorText: _validarEmpty(_alturaController, "Altura inválida!"),
+              controller: TextEditingController(
+                text: (altura * 100).toStringAsFixed(0),
               ),
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              keyboardType: TextInputType.number,
+              enabled: false,
+              decoration: const InputDecoration(
+                labelText: 'Altura (cm)',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: _pesoController.text.isNotEmpty &&
-                      _alturaController.text.isNotEmpty
-                  ? _addNewImc
-                  : null,
+              onPressed: _pesoController.text.isNotEmpty ? _addNewImc : null,
               child: const Text('SALVAR'),
             ),
           ],
@@ -100,12 +95,11 @@ class _AddPageState extends State<AddPage> {
           _pesoController.text.replaceAll(",", "."),
         ) ??
         0;
-    int altura = int.tryParse(_alturaController.text) ?? 0;
 
-    if (peso == 0 || altura == 0) {
+    if (peso == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Peso e altura devem ser maiores que zero!'),
+          content: Text('Peso deve ser maior que zero!'),
           backgroundColor: Colors.red,
         ),
       );
@@ -113,9 +107,13 @@ class _AddPageState extends State<AddPage> {
     }
 
     try {
-      IMC imc = IMC(peso: peso.toDouble(), altura: altura / 100);
+      IMC imc = IMC(
+        peso: peso.toDouble(),
+        altura: altura,
+        data: DateTime.now(),
+      );
 
-      await ImcService().saveIMC(imc);
+      await ImcService.instance.saveIMC(imc);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
